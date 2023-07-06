@@ -17,5 +17,5 @@ eg. for this sudoku:
 you should call
 ./sudokusolver 100000207000900563000702010560400030000000700974000156249057000710090300000100470
 
-to compile us gcc:
+to compile use gcc:
 gcc main.c -o sudokusolver
