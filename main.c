@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 
+void printSudoku(char sudoku[9][9]);
+
 int main(int argc,char **argv)
 {
  	char sudoku[9][9];
@@ -16,7 +18,7 @@ int main(int argc,char **argv)
             {
                 if(i < varLength)
                 {
-                    sudoku[i-(i%9)][i%9] = argv[1][i] - '0';
+                    sudoku[(i-(i%9))/9][i%9] = argv[1][i] - '0';
                 }
             }
         }
@@ -37,5 +39,35 @@ int main(int argc,char **argv)
                 possible[x][y][n] = 1;
             }
         }
+    }
+
+    printf("Before:\n");
+    printSudoku(sudoku);
+
+    int changed = 1;
+    while(changed)
+    {
+        changed = 0;
+    }
+
+    printf("After:\n");
+    printSudoku(sudoku);
+}
+
+void printSudoku(char sudoku[9][9])
+{
+    for(int i = 0; i < 81; i++)
+    {
+        if(sudoku[(i-(i%9))/9][i%9] != 0)
+            printf("%i", sudoku[(i-(i%9))/9][i%9]);
+        else
+            printf("-");
+
+        if((i+1)%3 == 0)
+            printf("  ");
+        if((i+1)%9 == 0)
+            printf("\n");
+        if((i+1)%27 == 0)
+            printf("\n");
     }
 }
