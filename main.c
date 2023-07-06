@@ -30,19 +30,90 @@ int main(int argc,char **argv)
         return 1;
     }
 
+    printf("Before:\n");
+    printSudoku(sudoku);
+
+    // Step one: Narrow down possibilities
     for(int x = 0; x < 9; x++)
     {
         for(int y = 0; y < 9; y++)
         {
             for(int n = 0; n < 9; n++)
             {
-                possible[x][y][n] = 1;
+                // Place alerady taken
+                if(sudoku[x][y])
+                {
+                    possible[x][y][n] = 0;
+                    continue;
+                }
+                
+                int continueOver = 0;
+
+                // Row
+                for(int x2 = 0; x2 < 9; x2++)
+                {
+                    if(x == x2)
+                    {
+                        continue;
+                    }
+
+                    if(sudoku[x2][y] == n)
+                    {
+                        possible[x][y][n] = 0;
+                        continueOver = 1;
+                        break;
+                    }
+                }
+
+                if(continueOver)
+                {
+                    continue;
+                }
+
+                // Column
+                for(int y2 = 0; y2 < 9; y2++)
+                {
+                    if(y == y2)
+                        continue;
+                    if(sudoku[x][y2] == n)
+                    {
+                        possible[x][y][n] = 0;
+                        continueOver = 1;
+                        break;
+                    }
+                }
+
+                if(continueOver)
+                {
+                    continue;
+                }
+
+                //Square
+                for(int x2 = x-(x%3); x2 < x-(x%3)+3; x2++)
+                {
+                    for(int y2 = y-(y%3); y2 < y-(y%3)+3; y2++)
+                    {
+                        if(x == x2 && y == y2)
+                        {
+                            continue;
+                        }
+
+                        if(sudoku[x2][y2] == n)
+                        {
+                            possible[x][y][n] = 0;
+                            continueOver = 1;
+                            break;
+                        }
+                    }
+
+                    if(continueOver)
+                    {
+                        continue;
+                    }
+                }
             }
         }
     }
-
-    printf("Before:\n");
-    printSudoku(sudoku);
 
     int changed = 1;
     while(changed)
