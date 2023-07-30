@@ -535,9 +535,10 @@ char main(char argc,char **argv)
                 }
                 
                 //Yup, we should do Very advanced possibility narrowing
-                if(matches == spotPossibleCount)
+                if(matches == spotPossibleCount - 1)
                 {
                     char match = 0;
+                    char changedOnVeryAdvancedNarrowing = 0;
                     for (char x2 = 0; x2 < 9; x2++)
                     {
                         if(x2 == matchX[match])
@@ -550,14 +551,16 @@ char main(char argc,char **argv)
                             if (spotPossible[n])
                             {
                                 possible[x2][y][n] = 0;
+                                changed = 1;
+                                changedOnVeryAdvancedNarrowing = 1;
                             }
                         }
                     }
 
-                    if(verbose)
+                    if(verbose && changedOnVeryAdvancedNarrowing)
                     {
                         printf("Very advanced narrowing on spots ");
-                        for(char match = 0; match < matches; match++)
+                        for(char match = 0; match < matches + 1; match++)
                         {
                             if (match != 0)
                             {
@@ -626,9 +629,10 @@ char main(char argc,char **argv)
                 }
                 
                 //Yup, we should do Very advanced possibility narrowing
-                if(matches == spotPossibleCount)
+                if(matches == spotPossibleCount - 1)
                 {
                     char match = 0;
+                    char changedOnVeryAdvancedNarrowing = 0;
                     for (char y2 = 0; y2 < 9; y2++)
                     {
                         if(y2 == matchY[match])
@@ -641,14 +645,16 @@ char main(char argc,char **argv)
                             if (spotPossible[n])
                             {
                                 possible[x][y2][n] = 0;
+                                changed = 1;
+                                changedOnVeryAdvancedNarrowing = 1;
                             }
                         }
                     }
 
-                    if(verbose)
+                    if(verbose && changedOnVeryAdvancedNarrowing)
                     {
                         printf("Very advanced narrowing on spots ");
-                        for(char match = 0; match < matches; match++)
+                        for(char match = 0; match < matches + 1; match++)
                         {
                             if (match != 0)
                             {
