@@ -38,8 +38,11 @@ char main(char argc,char **argv)
         return 1;
     }
 
-    printf("Before:\n");
-    printSudoku(sudoku);
+    if(verbose)
+    {
+        printf("Before:\n");
+        printSudoku(sudoku);
+    }
 
     // Step one: Narrow down possibilities
     for(char x = 0; x < 9; x++)
