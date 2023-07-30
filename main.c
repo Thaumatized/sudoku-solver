@@ -553,9 +553,12 @@ char main(char argc,char **argv)
                         {
                             if (spotPossible[n])
                             {
-                                possible[x2][y][n] = 0;
-                                changed = 1;
-                                changedOnVeryAdvancedNarrowing = 1;
+                                if(possible[x2][y][n])
+                                {
+                                    possible[x2][y][n] = 0;
+                                    changed = 1;
+                                    changedOnVeryAdvancedNarrowing = 1;
+                                }
                             }
                         }
                     }
@@ -647,9 +650,12 @@ char main(char argc,char **argv)
                         {
                             if (spotPossible[n])
                             {
-                                possible[x][y2][n] = 0;
-                                changed = 1;
-                                changedOnVeryAdvancedNarrowing = 1;
+                                if(possible[x][y2][n])
+                                {
+                                    possible[x][y2][n] = 0;
+                                    changed = 1;
+                                    changedOnVeryAdvancedNarrowing = 1;
+                                }
                             }
                         }
                     }
