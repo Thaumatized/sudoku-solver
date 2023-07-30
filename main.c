@@ -681,7 +681,10 @@ char main(char argc,char **argv)
         }
     }
 
-    printf("After:\n");
+    if(verbose)
+    {
+        printf("After:\n");
+    }
     printSudoku(sudoku);
 }
 
