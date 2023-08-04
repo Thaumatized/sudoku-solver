@@ -29,8 +29,6 @@ https://sudoku.com/ sucks ass. They want you to watch ads, clearly, as hints are
 TODO:
 Very advanced narrowing can apply to squares as well. Wether or not it is necessary is a question for another time.
 
-I should also fix the bug which can cause an infinite loop...
-
 Get this one working:
 ./sudokusolver -v 050000306600020004007900008000048000000200037004001000000000500070000020080053070
 https://sudoku9x9.com/ (L5: #601553023)
