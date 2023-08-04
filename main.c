@@ -488,8 +488,8 @@ char main(char argc,char **argv)
         //Very advanced possibility narrowing
         /*
          * (WHERE X = 2-8)
-         * When a row/column contains X cells which all have the same X possibilities and no others
-         * We can quarantee that in said column/row those X numbers will be in those X spots
+         * When a row/column/square contains X cells which all have the same X possibilities and no others
+         * We can quarantee that in said row/column/square those X numbers will be in those X spots
          * and thus we can eliminate them from all others in said row/column
          */
         // Very advanced possibility narrowing rows
@@ -683,6 +683,118 @@ char main(char argc,char **argv)
                         printf(".\n");
                     }
                 }
+            }
+        }
+
+        //Very advanced possibility narrowing squares
+        for(char square = 0; square < 9; square++)
+        {
+            char squareX = (square % 3)*3;
+            char squareY = (square - (square % 3))*3;
+            for(char x = squareX; x < squareX + 3; x++)
+            {
+                for(char y = squareY; y < squareY + 3; y++)
+                {
+                    char spotPossible[9];
+                    char spotPossibleCount = 0;
+                    char matches = 0;
+                    for(char n = 0; n < 9; n++)
+                    {
+                        spotPossible[n] = possible[x][y][n];
+                        if(spotPossible[n])
+                        {
+                            spotPossibleCount++;
+                        }
+                    }
+
+                    if (spotPossibleCount < 2 || spotPossibleCount > 8)
+                    {
+                        continue;
+                    }
+
+                    char matchX[spotPossibleCount];
+                    char matchY[spotPossibleCount];
+                    memset(matchX, 0, spotPossibleCount);
+                    memset(matchY, 0, spotPossibleCount);
+                    matchX[0] = x;
+                    matchY[0] = y;
+
+                    for(char x2 = x; x < squareX + 3; x++)
+                    {
+                        for(char y2 = y; y < squareY + 3; y++)
+                        {
+                            if(x2 == x && y2 == y)
+                            {
+                                continue;
+                            }
+
+                            char match = 1;
+                            for(char n = 0; n < 9; n++)
+                            {
+                                if(spotPossible[n] != possible[x][y2][n])
+                                {
+                                    match = 0;
+                                    break;
+                                }
+                            }
+                            if(match == 1)
+                            {
+                                matches++;
+                                matchY[matches] = y2;
+                            }
+                        }
+                    }
+                    
+                    //Yup, we should do Very advanced possibility narrowing
+                    if(matches == spotPossibleCount - 1)
+                    {
+                        char match = 0;
+                        char changedOnVeryAdvancedNarrowing = 0;
+                        for (char y2 = 0; y2 < 9; y2++)
+                        {
+                            if(y2 == matchY[match])
+                            {
+                                match++;
+                                continue;
+                            }
+                            for(char n = 0; n < 9; n++)
+                            {
+                                if (spotPossible[n])
+                                {
+                                    if(possible[x][y2][n])
+                                    {
+                                        possible[x][y2][n] = 0;
+                                        changed = 1;
+                                        changedOnVeryAdvancedNarrowing = 1;
+                                    }
+                                }
+                            }
+                        }
+
+                        if(verbose && changedOnVeryAdvancedNarrowing)
+                        {
+                            printf("Very advanced narrowing on spots ");
+                            for(char match = 0; match < matches + 1; match++)
+                            {
+                                if (match != 0)
+                                {
+                                    printf(", ");
+                                }
+                                
+                                printf("%i %i", x+1, matchY[match]+1);
+                            }
+                            printf(" numbers");
+                            for (char n = 0; n < 9; n++)
+                            {
+                                if(spotPossible[n])
+                                {
+                                    printf(" %i", n+1);
+                                }
+                            }
+                            printf(".\n");
+                        }
+                    }
+                } 
             }
         }
     }
