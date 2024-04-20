@@ -565,7 +565,7 @@ char main(char argc,char **argv)
 
                     if(verbose && changedOnVeryAdvancedNarrowing)
                     {
-                        printf("Very advanced narrowing on spots ");
+                        printf("Very advanced narrowing (row) on spots ");
                         for(char match = 0; match < matches + 1; match++)
                         {
                             if (match != 0)
@@ -662,7 +662,7 @@ char main(char argc,char **argv)
 
                     if(verbose && changedOnVeryAdvancedNarrowing)
                     {
-                        printf("Very advanced narrowing on spots ");
+                        printf("Very advanced narrowing (column) on spots ");
                         for(char match = 0; match < matches + 1; match++)
                         {
                             if (match != 0)
@@ -740,6 +740,7 @@ char main(char argc,char **argv)
                             if(match == 1)
                             {
                                 matches++;
+                                matchX[matches] = x2;
                                 matchY[matches] = y2;
                             }
                         }
@@ -750,22 +751,27 @@ char main(char argc,char **argv)
                     {
                         char match = 0;
                         char changedOnVeryAdvancedNarrowing = 0;
-                        for (char y2 = 0; y2 < 9; y2++)
+                        
+                        //it is important that we loop over the square in the same order as when finding the matches
+                        for(char x2 = x; x < squareX + 3; x++)
                         {
-                            if(y2 == matchY[match])
+                            for (char y2 = squareY; y2 < squareY+3; y2++)
                             {
-                                match++;
-                                continue;
-                            }
-                            for(char n = 0; n < 9; n++)
-                            {
-                                if (spotPossible[n])
+                                if(x2 == matchX[match] && y2 == matchY[match])
                                 {
-                                    if(possible[x][y2][n])
+                                    match++;
+                                    continue;
+                                }
+                                for(char n = 0; n < 9; n++)
+                                {
+                                    if (spotPossible[n])
                                     {
-                                        possible[x][y2][n] = 0;
-                                        changed = 1;
-                                        changedOnVeryAdvancedNarrowing = 1;
+                                        if(possible[x][y2][n])
+                                        {
+                                            possible[x][y2][n] = 0;
+                                            changed = 1;
+                                            changedOnVeryAdvancedNarrowing = 1;
+                                        }
                                     }
                                 }
                             }
@@ -773,7 +779,7 @@ char main(char argc,char **argv)
 
                         if(verbose && changedOnVeryAdvancedNarrowing)
                         {
-                            printf("Very advanced narrowing on spots ");
+                            printf("Very advanced narrowing (square) on spots ");
                             for(char match = 0; match < matches + 1; match++)
                             {
                                 if (match != 0)
